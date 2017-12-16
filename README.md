@@ -1,2 +1,2 @@
 # satimages
-Examining satalite imagery with Mapbox
+Examining satellite imagery with Mapbox
