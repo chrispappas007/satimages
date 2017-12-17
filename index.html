@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Disappearing Glaciers</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+    #menu {
+        position: absolute;
+        background: #fff;
+        padding: 10px;
+        font-family: 'Open Sans', sans-serif;
+    }
+</style>
+
+<div id='map'></div>
+<div id='menu'>
+    <input id='mapbox/outdoors-v10' type='radio' name='rtoggle' value='mapbox/outdoors-v10' checked='checked'>
+    <label for='mapbox/outdoors-v10'>Basemap</label>
+    <input id='chrispappas007/cjba8ivhz53u52rs07af0mpwy' type='radio' name='rtoggle' value='chrispappas007/cjba8ivhz53u52rs07af0mpwy'>
+    <label for='chrispappas007/cjba8ivhz53u52rs07af0mpwy'>2008</label>
+    <input id='chrispappas007/cjba8oozg53lr2spi8muggdp5' type='radio' name='rtoggle' value='chrispappas007/cjba8oozg53lr2spi8muggdp5'>
+    <label for='chrispappas007/cjba8oozg53lr2spi8muggdp5'>2017</label>
+</div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXNwYXBwYXMwMDciLCJhIjoiY2o2OG5nZ3BlMGlpdzJwbnk1cTM0NG96aSJ9.Or0X37Xo2B4fv9TTMTd2cw';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/outdoors-v10',
+    zoom: 8,
+    center: [-113.844, 48.681]
+});
+
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+
+function switchLayer(layer) {
+    var layerId = layer.target.id;
+    map.setStyle('mapbox://styles/' + layerId);
+}
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+
+
+</script>
+
+</body>
+</html>
