@@ -62,25 +62,98 @@ map.on('load', function () {
 d3.json('data/roads.json', function(roads) {
     // when loaded
     console.log(roads);
-    //call map functions here
+    addRoads(roads);
 });
 d3.json('data/trails.json', function(trails) {
     // when loaded
     console.log(trails);
-    //call map functions here
+    addTrails(trails);
 });
 d3.json('data/2005glaciers.json', function(glacier05) {
     // when loaded
     console.log(glacier05);
-    //call map functions here
+    addGlacier05(glacier05);
 });
 d3.json('data/2015glaciers.json', function(glacier15) {
     // when loaded
     console.log(glacier15);
-    //call map functions here
+    addGlacier15(glacier15);
 });
 
 //write map functions here
+function addRoads(roads) {
+    // add the GeoJSON data as a mapbox gl layer
+    map.addLayer({
+        'id': 'roads',
+        'type': 'line',
+        'source': {
+            'type': 'geojson',
+            'data': roads // use the data as the data source
+        },
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        "paint": {
+            'line-color': '#888',
+            'line-width': 3
+        }    
+    });
+};
+
+function addTrails(trails) {
+    // add the GeoJSON data as a mapbox gl layer
+    map.addLayer({
+        'id': 'trails',
+        'type': 'line',
+        'source': {
+            'type': 'geojson',
+            'data': trails // use the data as the data source
+        },
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        "paint": {
+            'line-color': '#e6153b',
+            'line-width': 1
+        }    
+    });
+};
+
+function addGlacier05(glacier05) {
+    // add the GeoJSON data as a mapbox gl layer
+    map.addLayer({
+        'id': 'glacier05',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': glacier05 // use the data as the data source
+        },
+        "paint": {
+            'fill-color': '#b315e6',
+            'fill-outline-color': '#000000',
+            'fill-opacity': 0.5
+        }    
+    });
+};
+
+function addGlacier15(glacier15) {
+    // add the GeoJSON data as a mapbox gl layer
+    map.addLayer({
+        'id': 'glacier15',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': glacier15 // use the data as the data source
+        },
+        "paint": {
+            'fill-color': '#fe9869',
+            'fill-outline-color': '#000000',
+            'fill-opacity': 0.5
+        }    
+    });
+};
 
 });
 
