@@ -4,10 +4,10 @@
     <meta charset='utf-8' />
     <title>Disappearing Glaciers</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href='https://api.mapbox.com/mapbox-assembly/v0.19.0/assembly.min.css' rel='stylesheet'>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
 </head>
 <body>
@@ -20,19 +20,37 @@
         font-family: 'Open Sans', sans-serif;
     }
 </style>
-
-<div id='map'></div>
-<div id='menu'>
-    <input id='mapbox/outdoors-v10' type='radio' name='rtoggle' value='mapbox/outdoors-v10' checked='checked'>
-    <label for='mapbox/outdoors-v10'>Basemap</label>
-    <input id='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d' type='radio' name='rtoggle' value='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>
-    <label for='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>2009</label>
-    <input id='chrispappas007/cjbb9w79b62de2spmpm4tqu6b' type='radio' name='rtoggle' value='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>
-    <label for='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>2017</label>
+<div class='grid bg-gray-dark absolute h-full w-full'>
+    <div class='col col--12 border-b border--white color-white'>
+        <h1 class='txt-h2 mx36 my24 inline-block'>Disappearing Glaciers at Glacier National Park</h1>
+        <p class='fr mr24 mt36'><a class='link' target='_blank' href='https://www.usgs.gov/centers/norock/science/time-series-glacier-retreat'>USGS Northern Rocky Mountain Science Center</a></p>
+    </div>
+    <div class='col col--12 h-full relative'>
+        <div id='map' class='w-full h-full'></div>
+        <div id='radio-container' class='radio-container w180 bg-white absolute top left mt18 mr18 round shadow-darken10 px12 py12 txt-s'>
+            <label class='radio-container' for='mapbox/outdoors-v10'>
+            <input id='mapbox/outdoors-v10' type='radio' name='radio-basic' value='mapbox/outdoors-v10' checked='checked'>
+                <div class='radio mr6 pr6'></div>
+                Basemap</label>
+            <label class='radio-container' for='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>
+            <input id='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d' type='radio' name='radio-basic' value='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>
+                <div class='radio mr6 pr6'></div>
+                2009</label>
+            <label class='radio-container' for='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>
+            <input id='chrispappas007/cjbb9w79b62de2spmpm4tqu6b' type='radio' name='radio-basic' value='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>
+                <div class='radio mr6 pr6'></div>
+                2017</label>
+        </div>
+        <div id='legend' class='w180 bg-white absolute top right mt18 mr18 round shadow-darken10 px12 py12 txt-s'>
+            <strong class='block mb6 txt-l'>Glaciers</strong>
+            <ul class='ul mb6'></ul>
+        </div>
+    </div>
 </div>
 
+<script async defer src='https://api.mapbox.com/mapbox-assembly/v0.19.0/assembly.js'></script>
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src='https://d3js.org/d3.v4.min.js'></script>
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXNwYXBwYXMwMDciLCJhIjoiY2o2OG5nZ3BlMGlpdzJwbnk1cTM0NG96aSJ9.Or0X37Xo2B4fv9TTMTd2cw';
@@ -43,7 +61,7 @@ var map = new mapboxgl.Map({
     center: [-114.096, 48.881]
 });
 
-var layerList = document.getElementById('menu');
+var layerList = document.getElementById('radio-container');
 var inputs = layerList.getElementsByTagName('input');
 
 function switchLayer(layer) {
