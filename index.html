@@ -104,6 +104,8 @@ d3.json('data/2015glaciers.json', function(glacier15) {
     addGlacier15(glacier15);
 });
 
+addPopup();
+
 //write map functions here
 function addRoads(roads) {
     // add the GeoJSON data as a mapbox gl layer
@@ -178,6 +180,32 @@ function addGlacier15(glacier15) {
         }    
     });
 };
+
+function addPopup() {
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+        });
+    
+        map.on('mousemove', ('roads','trails','glacier05','glacier15'), function (e) {
+                var features = map.queryRenderedFeatures(e.point, {
+                    layers: ['roads','trails','glacier05','glacier15']
+                });
+                // Change the cursor style as a UI affordance.
+                map.getCanvas().style.cursor = 'pointer';
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup.setLngLat(e.lngLat)
+                    .setHTML(e.features[0].properties.NAME)
+                    .addTo(map);
+            });
+            map.on('mouseleave', ('roads','trails','glacier05','glacier15'), function () {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+            });
+    
+}
 
 });
 
