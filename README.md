@@ -1,4 +1,4 @@
-# Disappaering Glaciers at Glacier National Park
+# Disappearing Glaciers at Glacier National Park
 
 For my final project, I wanted to practice processing and using satellite imagery in web mapping. I had initially wanted to examine satellite imagery around Mayan sites in Mexico, but was unable to find suitable imagery (likely due to my poor Spanish). I instead settled on examining the glaciers at [Glacier National Park (GLNP)](https://www.nps.gov/glac/index.htm). 
 
