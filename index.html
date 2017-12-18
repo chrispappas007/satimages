@@ -63,7 +63,6 @@
 
     <script async defer src='https://api.mapbox.com/mapbox-assembly/v0.19.0/assembly.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
-    <script src='https://d3js.org/d3.v4.min.js'></script>
 
     <script>
         mapboxgl.accessToken =
@@ -81,141 +80,122 @@
         function switchLayer(layer) {
             var layerId = layer.target.id;
             map.setStyle('mapbox://styles/' + layerId);
+
         }
 
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].onclick = switchLayer;
         }
 
-        // when the map is done loading
-        map.on('load', function () {
-
-            // request our GEOJSON data
-            d3.json('data/roads.json', function (roads) {
-                // when loaded
-                console.log(roads);
-                addRoads(roads);
-            });
-            d3.json('data/trails.json', function (trails) {
-                // when loaded
-                console.log(trails);
-                addTrails(trails);
-            });
-            d3.json('data/2005glaciers.json', function (glacier05) {
-                // when loaded
-                console.log(glacier05);
-                addGlacier05(glacier05);
-            });
-            d3.json('data/2015glaciers.json', function (glacier15) {
-                // when loaded
-                console.log(glacier15);
-                addGlacier15(glacier15);
-            });
-
+        // when the style is loaded
+        map.on('style.load', function () {
+            // add the layers
+            addRoads();
+            addTrails();
+            addGlacier05();
+            addGlacier15();
             addPopup();
-
-            //write map functions here
-            function addRoads(roads) {
-                // add the GeoJSON data as a mapbox gl layer
-                map.addLayer({
-                    'id': 'roads',
-                    'type': 'line',
-                    'source': {
-                        'type': 'geojson',
-                        'data': roads // use the data as the data source
-                    },
-                    'layout': {
-                        'line-join': 'round',
-                        'line-cap': 'round'
-                    },
-                    "paint": {
-                        'line-color': '#888',
-                        'line-width': 3
-                    }
-                });
-            };
-
-            function addTrails(trails) {
-                // add the GeoJSON data as a mapbox gl layer
-                map.addLayer({
-                    'id': 'trails',
-                    'type': 'line',
-                    'source': {
-                        'type': 'geojson',
-                        'data': trails // use the data as the data source
-                    },
-                    'layout': {
-                        'line-join': 'round',
-                        'line-cap': 'round'
-                    },
-                    "paint": {
-                        'line-color': '#ff00fb',
-                        'line-width': 1
-                    }
-                });
-            };
-
-            function addGlacier05(glacier05) {
-                // add the GeoJSON data as a mapbox gl layer
-                map.addLayer({
-                    'id': 'glacier05',
-                    'type': 'fill',
-                    'source': {
-                        'type': 'geojson',
-                        'data': glacier05 // use the data as the data source
-                    },
-                    "paint": {
-                        'fill-color': '#e30606',
-                        'fill-outline-color': '#000000',
-                        'fill-opacity': 0.5
-                    }
-                });
-            };
-
-            function addGlacier15(glacier15) {
-                // add the GeoJSON data as a mapbox gl layer
-                map.addLayer({
-                    'id': 'glacier15',
-                    'type': 'fill',
-                    'source': {
-                        'type': 'geojson',
-                        'data': glacier15 // use the data as the data source
-                    },
-                    "paint": {
-                        'fill-color': '#00bdff',
-                        'fill-outline-color': '#000000',
-                        'fill-opacity': 0.5
-                    }
-                });
-            };
-
-            function addPopup() {
-                // Create a popup, but don't add it to the map yet.
-                var popup = new mapboxgl.Popup({
-                    closeButton: false,
-                    closeOnClick: false
-                });
-
-                map.on('mousemove', ('roads', 'trails', 'glacier05', 'glacier15'), function (e) {
-                    var features = map.queryRenderedFeatures(e.point, {
-                        layers: ['roads', 'trails', 'glacier05', 'glacier15']
-                    });
-                    // Change the cursor style as a UI affordance.
-                    map.getCanvas().style.cursor = 'pointer';
-                    // Populate the popup and set its coordinates
-                    // based on the feature found.
-                    popup.setLngLat(e.lngLat)
-                        .setHTML(e.features[0].properties.NAME)
-                        .addTo(map);
-                });
-                map.on('mouseleave', ('roads', 'trails', 'glacier05', 'glacier15'), function () {
-                    map.getCanvas().style.cursor = '';
-                    popup.remove();
-                });
-
-            }
-
         });
+
+        //write map functions here
+        function addRoads() {
+            // add the GeoJSON data as a mapbox gl layer
+            map.addLayer({
+                'id': 'roads',
+                'type': 'line',
+                'source': {
+                    'type': 'geojson',
+                    'data': 'data/roads.json' // use the data as the data source
+                },
+                'layout': {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                "paint": {
+                    'line-color': '#888',
+                    'line-width': 3
+                }
+            });
+        };
+
+        function addTrails() {
+            // add the GeoJSON data as a mapbox gl layer
+            map.addLayer({
+                'id': 'trails',
+                'type': 'line',
+                'source': {
+                    'type': 'geojson',
+                    'data': 'data/trails.json' // use the data as the data source
+                },
+                'layout': {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                "paint": {
+                    'line-color': '#ff00fb',
+                    'line-width': 1
+                }
+            });
+        };
+
+        function addGlacier05() {
+            // add the GeoJSON data as a mapbox gl layer
+            map.addLayer({
+                'id': 'glacier05',
+                'type': 'fill',
+                'source': {
+                    'type': 'geojson',
+                    'data': 'data/2005glaciers.json' // use the data as the data source
+                },
+                "paint": {
+                    'fill-color': '#e30606',
+                    'fill-outline-color': '#000000',
+                    'fill-opacity': 1
+                }
+            });
+        };
+
+        function addGlacier15() {
+            // add the GeoJSON data as a mapbox gl layer
+            map.addLayer({
+                'id': 'glacier15',
+                'type': 'fill',
+                'source': {
+                    'type': 'geojson',
+                    'data': 'data/2015glaciers.json' // use the data as the data source
+                },
+                "paint": {
+                    'fill-color': '#00bdff',
+                    'fill-outline-color': '#000000',
+                    'fill-opacity': 1
+                }
+            });
+        };
+
+        function addPopup() {
+            // Create a popup, but don't add it to the map yet.
+            var popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
+
+            map.on('mousemove', ('roads', 'trails', 'glacier05', 'glacier15'), function (e) {
+                var features = map.queryRenderedFeatures(e.point);
+                console.log(features)
+                // Change the cursor style as a UI affordance.
+                map.getCanvas().style.cursor = 'pointer';
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup.setLngLat(e.lngLat)
+                    .setHTML(e.features[0].properties.NAME)
+                    .addTo(map);
+            });
+            map.on('mouseleave', ('roads', 'trails', 'glacier05', 'glacier15'), function () {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+            });
+
+        }
     </script>
 
 </body>
