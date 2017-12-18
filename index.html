@@ -80,20 +80,26 @@
         function switchLayer(layer) {
             var layerId = layer.target.id;
             map.setStyle('mapbox://styles/' + layerId);
+
         }
 
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].onclick = switchLayer;
         }
 
-        // when the map is done loading
-        map.once('load', function () {
+        // when the style is loaded
+        map.on('style.load', function () {
+            // add the layers
+            addLayers()
+        });
+
+        function addLayers() {
             addRoads();
             addTrails();
             addGlacier05();
             addGlacier15();
             addPopup();
-        }); // end map.once('load')
+        }
 
         //write map functions here
         function addRoads() {
@@ -116,7 +122,7 @@
             });
         };
 
-        function addTrails(trails) {
+        function addTrails() {
             // add the GeoJSON data as a mapbox gl layer
             map.addLayer({
                 'id': 'trails',
@@ -136,7 +142,7 @@
             });
         };
 
-        function addGlacier05(glacier05) {
+        function addGlacier05() {
             // add the GeoJSON data as a mapbox gl layer
             map.addLayer({
                 'id': 'glacier05',
@@ -153,7 +159,7 @@
             });
         };
 
-        function addGlacier15(glacier15) {
+        function addGlacier15() {
             // add the GeoJSON data as a mapbox gl layer
             map.addLayer({
                 'id': 'glacier15',
@@ -178,9 +184,8 @@
             });
 
             map.on('mousemove', ('roads', 'trails', 'glacier05', 'glacier15'), function (e) {
-                var features = map.queryRenderedFeatures(e.point, {
-                    layers: ['roads', 'trails', 'glacier05', 'glacier15']
-                });
+                var features = map.queryRenderedFeatures(e.point);
+                console.log(features)
                 // Change the cursor style as a UI affordance.
                 map.getCanvas().style.cursor = 'pointer';
                 // Populate the popup and set its coordinates
