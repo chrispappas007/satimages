@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8' />
     <title>Disappearing Glaciers</title>
@@ -7,209 +8,216 @@
     <link href='https://api.mapbox.com/mapbox-assembly/v0.19.0/assembly.min.css' rel='stylesheet'>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
     <style>
-        body { margin:0; padding:0; }
+        body {
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
+
 <body>
 
-<style>
-    #menu {
-        position: absolute;
-        background: #fff;
-        padding: 10px;
-        font-family: 'Open Sans', sans-serif;
-    }
-</style>
-<div class='grid bg-gray-dark absolute h-full w-full'>
-    <div class='col col--12 border-b border--white color-white'>
-        <h1 class='txt-h2 mx36 my24 inline-block'>Disappearing Glaciers at Glacier National Park</h1>
-        <p class='fr mr24 mt36'><a class='link' target='_blank' href='https://www.usgs.gov/centers/norock/science/time-series-glacier-retreat'>USGS Northern Rocky Mountain Science Center</a></p>
-    </div>
-    <div class='col col--12 h-full relative'>
-        <div id='map' class='w-full h-full'></div>
-        <div id='radio-container' class='radio-container w-auto bg-white absolute top left mt18 mr18 round shadow-darken10 px12 py12 txt-s'>
-            <label class='radio-container mr6' for='mapbox/outdoors-v10'>
-            <input id='mapbox/outdoors-v10' type='radio' name='radio-basic' value='mapbox/outdoors-v10' checked='checked'>
-                <div class='radio mr6'></div>
-                Basemap</label>
-            <label class='radio-container mr6' for='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>
-            <input id='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d' type='radio' name='radio-basic' value='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>
-                <div class='radio mr6'></div>
-                2009</label>
-            <label class='radio-container mr6' for='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>
-            <input id='chrispappas007/cjbb9w79b62de2spmpm4tqu6b' type='radio' name='radio-basic' value='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>
-                <div class='radio mr6'></div>
-                2017</label>
+    <style>
+        #menu {
+            position: absolute;
+            background: #fff;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+    <div class='grid bg-gray-dark absolute h-full w-full'>
+        <div class='col col--12 border-b border--white color-white'>
+            <h1 class='txt-h2 mx36 my24 inline-block'>Disappearing Glaciers at Glacier National Park</h1>
+            <p class='fr mr24 mt36'>
+                <a class='link' target='_blank' href='https://www.usgs.gov/centers/norock/science/time-series-glacier-retreat'>USGS Northern Rocky Mountain Science Center</a>
+            </p>
         </div>
-        <div id='legend' class='w-auto bg-white absolute top right mt18 mr18 round shadow-darken10 px12 py12 txt-s'>
-            <strong class='block mb6 txt-l'>Glaciers</strong>
-            <ul class='ul mb6'>
-                <li class='li h-full txt-m'>
-                    <span class='w24 h18 mt6 fl mr12' style='background:#e30606;'></span>2005</li>
-                <li class='li h-full txt-m'>
-                    <span class='w24 h18 mt6 fl mr12' style='background:#00bdff;'></span>2017</li>
-        
-            </ul>
+        <div class='col col--12 h-full relative'>
+            <div id='map' class='w-full h-full'></div>
+            <div id='radio-container' class='radio-container w-auto bg-white absolute top left mt18 mr18 round shadow-darken10 px12 py12 txt-s'>
+                <label class='radio-container mr6' for='mapbox/outdoors-v10'>
+                    <input id='mapbox/outdoors-v10' type='radio' name='radio-basic' value='mapbox/outdoors-v10' checked='checked'>
+                    <div class='radio mr6'></div>
+                    Basemap</label>
+                <label class='radio-container mr6' for='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>
+                    <input id='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d' type='radio' name='radio-basic' value='chrispappas007/cjbb8ry9a62ro2slekrjz3t3d'>
+                    <div class='radio mr6'></div>
+                    2009</label>
+                <label class='radio-container mr6' for='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>
+                    <input id='chrispappas007/cjbb9w79b62de2spmpm4tqu6b' type='radio' name='radio-basic' value='chrispappas007/cjbb9w79b62de2spmpm4tqu6b'>
+                    <div class='radio mr6'></div>
+                    2017</label>
+            </div>
+            <div id='legend' class='w-auto bg-white absolute top right mt18 mr18 round shadow-darken10 px12 py12 txt-s'>
+                <strong class='block mb6 txt-l'>Glaciers</strong>
+                <ul class='ul mb6'>
+                    <li class='li h-full txt-m'>
+                        <span class='w24 h18 mt6 fl mr12' style='background:#e30606;'></span>2005</li>
+                    <li class='li h-full txt-m'>
+                        <span class='w24 h18 mt6 fl mr12' style='background:#00bdff;'></span>2017</li>
+
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 
-<script async defer src='https://api.mapbox.com/mapbox-assembly/v0.19.0/assembly.js'></script>
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
-<script src='https://d3js.org/d3.v4.min.js'></script>
+    <script async defer src='https://api.mapbox.com/mapbox-assembly/v0.19.0/assembly.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <script src='https://d3js.org/d3.v4.min.js'></script>
 
-<script>
-mapboxgl.accessToken = 'pk.eyJ1IjoiY2hyaXNwYXBwYXMwMDciLCJhIjoiY2o2OG5nZ3BlMGlpdzJwbnk1cTM0NG96aSJ9.Or0X37Xo2B4fv9TTMTd2cw';
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/outdoors-v10',
-    zoom: 11,
-    center: [-114.096, 48.881]
-});
-
-var layerList = document.getElementById('radio-container');
-var inputs = layerList.getElementsByTagName('input');
-
-function switchLayer(layer) {
-    var layerId = layer.target.id;
-    map.setStyle('mapbox://styles/' + layerId);
-}
-
-for (var i = 0; i < inputs.length; i++) {
-    inputs[i].onclick = switchLayer;
-}
-
-// when the map is done loading
-map.on('load', function () {
-
-// request our GEOJSON data
-d3.json('data/roads.json', function(roads) {
-    // when loaded
-    console.log(roads);
-    addRoads(roads);
-});
-d3.json('data/trails.json', function(trails) {
-    // when loaded
-    console.log(trails);
-    addTrails(trails);
-});
-d3.json('data/2005glaciers.json', function(glacier05) {
-    // when loaded
-    console.log(glacier05);
-    addGlacier05(glacier05);
-});
-d3.json('data/2015glaciers.json', function(glacier15) {
-    // when loaded
-    console.log(glacier15);
-    addGlacier15(glacier15);
-});
-
-addPopup();
-
-//write map functions here
-function addRoads(roads) {
-    // add the GeoJSON data as a mapbox gl layer
-    map.addLayer({
-        'id': 'roads',
-        'type': 'line',
-        'source': {
-            'type': 'geojson',
-            'data': roads // use the data as the data source
-        },
-        'layout': {
-            'line-join': 'round',
-            'line-cap': 'round'
-        },
-        "paint": {
-            'line-color': '#888',
-            'line-width': 3
-        }    
-    });
-};
-
-function addTrails(trails) {
-    // add the GeoJSON data as a mapbox gl layer
-    map.addLayer({
-        'id': 'trails',
-        'type': 'line',
-        'source': {
-            'type': 'geojson',
-            'data': trails // use the data as the data source
-        },
-        'layout': {
-            'line-join': 'round',
-            'line-cap': 'round'
-        },
-        "paint": {
-            'line-color': '#e6153b',
-            'line-width': 1
-        }    
-    });
-};
-
-function addGlacier05(glacier05) {
-    // add the GeoJSON data as a mapbox gl layer
-    map.addLayer({
-        'id': 'glacier05',
-        'type': 'fill',
-        'source': {
-            'type': 'geojson',
-            'data': glacier05 // use the data as the data source
-        },
-        "paint": {
-            'fill-color': '#e30606',
-            'fill-outline-color': '#000000',
-            'fill-opacity': 0.5
-        }    
-    });
-};
-
-function addGlacier15(glacier15) {
-    // add the GeoJSON data as a mapbox gl layer
-    map.addLayer({
-        'id': 'glacier15',
-        'type': 'fill',
-        'source': {
-            'type': 'geojson',
-            'data': glacier15 // use the data as the data source
-        },
-        "paint": {
-            'fill-color': '#00bdff',
-            'fill-outline-color': '#000000',
-            'fill-opacity': 0.5
-        }    
-    });
-};
-
-function addPopup() {
-    // Create a popup, but don't add it to the map yet.
-    var popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
+    <script>
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoiY2hyaXNwYXBwYXMwMDciLCJhIjoiY2o2OG5nZ3BlMGlpdzJwbnk1cTM0NG96aSJ9.Or0X37Xo2B4fv9TTMTd2cw';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/outdoors-v10',
+            zoom: 11,
+            center: [-114.096, 48.881]
         });
-    
-        map.on('mousemove', ('roads','trails','glacier05','glacier15'), function (e) {
-                var features = map.queryRenderedFeatures(e.point, {
-                    layers: ['roads','trails','glacier05','glacier15']
+
+        var layerList = document.getElementById('radio-container');
+        var inputs = layerList.getElementsByTagName('input');
+
+        function switchLayer(layer) {
+            var layerId = layer.target.id;
+            map.setStyle('mapbox://styles/' + layerId);
+        }
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].onclick = switchLayer;
+        }
+
+        // when the map is done loading
+        map.on('load', function () {
+
+            // request our GEOJSON data
+            d3.json('data/roads.json', function (roads) {
+                // when loaded
+                console.log(roads);
+                addRoads(roads);
+            });
+            d3.json('data/trails.json', function (trails) {
+                // when loaded
+                console.log(trails);
+                addTrails(trails);
+            });
+            d3.json('data/2005glaciers.json', function (glacier05) {
+                // when loaded
+                console.log(glacier05);
+                addGlacier05(glacier05);
+            });
+            d3.json('data/2015glaciers.json', function (glacier15) {
+                // when loaded
+                console.log(glacier15);
+                addGlacier15(glacier15);
+            });
+
+            addPopup();
+
+            //write map functions here
+            function addRoads(roads) {
+                // add the GeoJSON data as a mapbox gl layer
+                map.addLayer({
+                    'id': 'roads',
+                    'type': 'line',
+                    'source': {
+                        'type': 'geojson',
+                        'data': roads // use the data as the data source
+                    },
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    "paint": {
+                        'line-color': '#888',
+                        'line-width': 3
+                    }
                 });
-                // Change the cursor style as a UI affordance.
-                map.getCanvas().style.cursor = 'pointer';
-                // Populate the popup and set its coordinates
-                // based on the feature found.
-                popup.setLngLat(e.lngLat)
-                    .setHTML(e.features[0].properties.NAME)
-                    .addTo(map);
-            });
-            map.on('mouseleave', ('roads','trails','glacier05','glacier15'), function () {
-                map.getCanvas().style.cursor = '';
-                popup.remove();
-            });
-    
-}
+            };
 
-});
+            function addTrails(trails) {
+                // add the GeoJSON data as a mapbox gl layer
+                map.addLayer({
+                    'id': 'trails',
+                    'type': 'line',
+                    'source': {
+                        'type': 'geojson',
+                        'data': trails // use the data as the data source
+                    },
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    "paint": {
+                        'line-color': '#ff00fb',
+                        'line-width': 1
+                    }
+                });
+            };
 
-</script>
+            function addGlacier05(glacier05) {
+                // add the GeoJSON data as a mapbox gl layer
+                map.addLayer({
+                    'id': 'glacier05',
+                    'type': 'fill',
+                    'source': {
+                        'type': 'geojson',
+                        'data': glacier05 // use the data as the data source
+                    },
+                    "paint": {
+                        'fill-color': '#e30606',
+                        'fill-outline-color': '#000000',
+                        'fill-opacity': 0.5
+                    }
+                });
+            };
+
+            function addGlacier15(glacier15) {
+                // add the GeoJSON data as a mapbox gl layer
+                map.addLayer({
+                    'id': 'glacier15',
+                    'type': 'fill',
+                    'source': {
+                        'type': 'geojson',
+                        'data': glacier15 // use the data as the data source
+                    },
+                    "paint": {
+                        'fill-color': '#00bdff',
+                        'fill-outline-color': '#000000',
+                        'fill-opacity': 0.5
+                    }
+                });
+            };
+
+            function addPopup() {
+                // Create a popup, but don't add it to the map yet.
+                var popup = new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: false
+                });
+
+                map.on('mousemove', ('roads', 'trails', 'glacier05', 'glacier15'), function (e) {
+                    var features = map.queryRenderedFeatures(e.point, {
+                        layers: ['roads', 'trails', 'glacier05', 'glacier15']
+                    });
+                    // Change the cursor style as a UI affordance.
+                    map.getCanvas().style.cursor = 'pointer';
+                    // Populate the popup and set its coordinates
+                    // based on the feature found.
+                    popup.setLngLat(e.lngLat)
+                        .setHTML(e.features[0].properties.NAME)
+                        .addTo(map);
+                });
+                map.on('mouseleave', ('roads', 'trails', 'glacier05', 'glacier15'), function () {
+                    map.getCanvas().style.cursor = '';
+                    popup.remove();
+                });
+
+            }
+
+        });
+    </script>
 
 </body>
+
 </html>
