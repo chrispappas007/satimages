@@ -90,16 +90,12 @@
         // when the style is loaded
         map.on('style.load', function () {
             // add the layers
-            addLayers()
-        });
-
-        function addLayers() {
             addRoads();
             addTrails();
             addGlacier05();
             addGlacier15();
             addPopup();
-        }
+        });
 
         //write map functions here
         function addRoads() {
