@@ -179,17 +179,29 @@
                 closeOnClick: false
             });
 
-            map.on('mousemove', ('roads', 'trails', 'glacier05', 'glacier15'), function (e) {
-                var features = map.queryRenderedFeatures(e.point);
-                console.log(features)
-                // Change the cursor style as a UI affordance.
-                map.getCanvas().style.cursor = 'pointer';
-                // Populate the popup and set its coordinates
-                // based on the feature found.
-                popup.setLngLat(e.lngLat)
-                    .setHTML(e.features[0].properties.NAME)
-                    .addTo(map);
-            });
+            // array of your target layers
+                        var layers = ['roads', 'trails', 'glacier05', 'glacier15'];
+            
+                        // loop through them
+                        layers.forEach(function(layer) {
+                            // when the mouse enters the layer
+                            map.on('mouseenter', (layer), function(e) {
+        
+                                // query it
+                                var feature = map.queryRenderedFeatures(e.point, {
+                                    layers: [layer]
+                                });
+            
+                                // Change the cursor style as a UI affordance.
+                                map.getCanvas().style.cursor = 'pointer';
+                                // Populate the popup and set its coordinates
+                                // based on the feature found.
+                                popup.setLngLat(e.lngLat)
+                                    .setHTML(e.features[0].properties.NAME)
+                                    .addTo(map);
+            
+                            })            
+                        });
             map.on('mouseleave', ('roads', 'trails', 'glacier05', 'glacier15'), function () {
                 map.getCanvas().style.cursor = '';
                 popup.remove();
